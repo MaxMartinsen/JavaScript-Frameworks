@@ -29,12 +29,12 @@ function App() {
       setIndex(0);
     }
   }
-  let productName = productList[index];
+  let productFromList = productList[index];
   return (
     <div className="App">
       <header className="App-header">
       <div>
-      <Product productName = {productName}/>
+      <Product productName = {productFromList}/>
       <button onClick={handleNextClick}>
         Next
       </button>
