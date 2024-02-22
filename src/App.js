@@ -13,10 +13,10 @@ function Product({ productName }) {
 function App() {
   const productList = [
     {
-      type: 'Melk'
+      type: 'Milk'
     },
     {
-      type: 'Ost'
+      type: 'Cheese'
     }
     
     ]
