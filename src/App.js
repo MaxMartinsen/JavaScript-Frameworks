@@ -1,31 +1,28 @@
-import React, { useReducer } from 'react';
-import './App.css';
-
-const initialState = { enemyHitPoints: 100 };
+import { useReducer } from 'react';
+import './App.css'
 
 function reducer(state, action) {
-  switch (action.type) {
-    case 'attack':
-      // Generate a random number between 0 and 1
-      const isCriticalHit = Math.random() < 0.5; // 50% chance for simplicity
-      const damage = isCriticalHit ? 40 : 10; // 40 damage for critical hit, 10 for normal
-      return { ...state, enemyHitPoints: state.enemyHitPoints - damage };
-    default:
-      return state;
+  if (action.type === 'attack') {
+    const isCriticalHit = Math.random() < 0.5; // 50% chance
+    const damage = isCriticalHit ? 40 : 10; // Critical hit or normal hit
+    return { ...state, enemyHitPoints: Math.max(0, state.enemyHitPoints - damage) };
   }
+  throw Error('Unknown action.');
 }
 
+export default function Counter() {
+  const [state, dispatch] = useReducer(reducer, { enemyHitPoints: 100 });
 
-function App() {
-  const [state, dispatch] = useReducer(reducer, initialState);
   return (
-    <div className="App">
-      <header className="App-header">
-      <label>Enemy Hit Points: {state.enemyHitPoints}</label>
-        <button onClick={() => dispatch({ type: 'attack' })}>Attack</button>
+    <div className='App'>
+      <header className='App-header'>
+      <button onClick={() => {
+        dispatch({ type: 'attack' })
+      }}>
+        Attack
+      </button>
+      <p>Enemy hit points: {state.enemyHitPoints}.</p>
       </header>
     </div>
   );
 }
-
-export default App;
