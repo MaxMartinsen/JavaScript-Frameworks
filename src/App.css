@@ -12,3 +12,12 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+
+.App-product {
+  display: flex;
+  align-items: center;
+}
+
+.App-button {
+  margin: 0px 15px;
+}
