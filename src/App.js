@@ -33,25 +33,22 @@ function Nav() {
       <li>
         <Link to="/product/1">Product with ID: 1</Link>
       </li>
-      <li>
-        <Link to="/product/2">Product with ID: 2</Link>
-      </li>
     </ul>
     </nav>
   )
 }
 
-// Our header component that gets used in our <Layout> component
 function Header() {
   return (
     <header>
-      <div>Header with Logo and nav</div>
+      <div>
+        Header with Logo and nav
+      </div>
       <Nav />
     </header>
   )
 }
 
-// Our footer component that gets used in our <Layout> component
 function Footer() {
   return <footer>Website footer</footer>
 }
