@@ -1,13 +1,19 @@
 import React from "react"
-import { Routes, Route, Link ,Outlet } from "react-router-dom"
+import { Routes, Route, Link ,Outlet, useParams } from "react-router-dom"
 import './App.css';
 
 function Home() {
   return <div>Home</div>
 }
 
+function Product() {
+  let params = useParams()
+  console.log(params)
+  return <div>Individual product page: {params.id}</div>
+}
+
 function Products() {
-  return <div>Products</div>
+  return <div>Products Listing Page</div>;
 }
 
 function RouteNotFound() {
@@ -17,14 +23,20 @@ function RouteNotFound() {
 function Nav() {
   return (
     <nav>
-      <ul>
-        <li>
-          <Link to="/">Home</Link>
-        </li>
-        <li>
-          <Link to="/products">Products</Link>
-        </li>
-      </ul>
+    <ul>
+      <li>
+        <Link to="/">Home</Link>
+      </li>
+      <li>
+        <Link to="/products">Products</Link>
+      </li>
+      <li>
+        <Link to="/product/1">Product with ID: 1</Link>
+      </li>
+      <li>
+        <Link to="/product/2">Product with ID: 2</Link>
+      </li>
+    </ul>
     </nav>
   )
 }
@@ -60,16 +72,15 @@ function Layout() {
 
 function App() {
   return (
-    <div className="wrapper">
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="products" element={<Products />} />
+          <Route path="product/:id" element={<Product />} />
           <Route path="*" element={<RouteNotFound />} />
-        </Route>
+        </Route>  
       </Routes>
-    </div>
-  )
+  );
 }
 
 export default App
