@@ -1,67 +1,54 @@
 import React, { useEffect, useState } from 'react';
 import { Routes, Route, Link, useParams } from 'react-router-dom';
-import './App.css'
+import './App.css';
 
 function Home() {
   return <div>Home</div>;
 }
 
-function Post() {
-  const [data, setData] = useState(null);
+function Todo() {
+  const [todo, setTodo] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   let { id } = useParams();
 
   useEffect(() => {
-    async function getData(url) {
+    async function fetchTodo() {
       try {
         setIsLoading(true);
-        const response = await fetch(url);
-        if (!response.ok) {
-          throw new Error('Network response was not ok'); // Better error handling
-        }
+        setIsError(false);
+        const response = await fetch(`https://jsonplaceholder.typicode.com/todos/${id}`);
+        if (!response.ok) throw new Error('Network response was not ok');
         const json = await response.json();
-        setData(json);
+        setTodo(json);
       } catch (error) {
-        console.error("Fetch error:", error); // Adjusted for clarity and best practices
+        console.error("Fetch error:", error);
         setIsError(true);
       } finally {
         setIsLoading(false);
       }
     }
 
-    getData(`https://jsonplaceholder.typicode.com/posts/${id}`);
+    fetchTodo();
   }, [id]);
 
-  if (isLoading || !data) {
-    return <div>Loading...</div>;
-  }
-
-  if (isError) {
-    return <div>Error loading the post</div>; // More informative error message
-  }
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Error loading the todo</div>;
 
   return (
     <div>
-      <div>userId: {data.userId}</div>
-      <div>id: {data.id}</div>
-      <div>title: {data.title}</div>
-      <div>body: {data.body}</div>
+      <h2>Todo:</h2>
+      {todo ? <div>title: {todo.title}</div> : <div>Todo not found</div>}
     </div>
   );
 }
-
 
 function Nav() {
   return (
     <nav>
       <ul>
-        <li>
-          <Link to="/">Home</Link>
-        </li>
-        <li>
-          <Link to="/post/1">Post with ID: 1</Link>
-        </li>
+        <li><Link to="/">Home</Link></li>
+        <li><Link to="/todo/1">Todo with ID: 1</Link></li>
       </ul>
     </nav>
   );
@@ -74,7 +61,7 @@ function App() {
         <Nav />
         <Routes>
           <Route index element={<Home />} />
-          <Route path="post/:id" element={<Post />} />
+          <Route path="todo/:id" element={<Todo />} />
         </Routes>
       </header>
     </div>
